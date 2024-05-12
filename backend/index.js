@@ -1,10 +1,11 @@
 const express = require("express");
 const { todo } = require("./db");
 const { createTodo, updateTodo } = require("./type");
+const cors = require("cors");
 const app = express()
 
 app.use(express.json());
-
+app.use(cors())
 // body {
     // title: string;
     // description: string;
@@ -13,6 +14,8 @@ app.use(express.json());
 app.post("/todo", async function(req, res){
     const createPayload = req.body;
     const parsedPayload = createTodo.safeParse(createPayload);
+    console.log(createPayload)
+    console.log(parsedPayload)
 
     if(!parsedPayload.success)
     {
@@ -29,6 +32,7 @@ app.post("/todo", async function(req, res){
         description: createPayload.description,
         completed: false
     })
+    console.log("inserted the record successfully!");
 })
 
 app.get("/todos", async function(req, res){
